@@ -13,7 +13,7 @@ public class TaskHandlerController {
   @RequestMapping(
       value = "/tasks/create",
       method = RequestMethod.POST,
-      consumes = "application/json")
+      consumes = "application/octet-stream")
   @ResponseStatus(HttpStatus.OK)
   public String taskHandler(@RequestBody String body) {
     String output;
