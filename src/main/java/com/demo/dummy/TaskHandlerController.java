@@ -1,6 +1,8 @@
 package com.demo.dummy;
 
+import com.demo.dummy.proxy.DummyRestClientAdapter;
 import com.google.gson.Gson;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +17,13 @@ import java.util.logging.Logger;
 public class TaskHandlerController {
 
   private static final Logger logger = Logger.getLogger(TaskHandlerController.class.getName());
+
+  private final DummyRestClientAdapter dummyRestClientAdapter;
+
+  @Autowired
+  public TaskHandlerController(DummyRestClientAdapter dummyRestClientAdapter) {
+    this.dummyRestClientAdapter = dummyRestClientAdapter;
+  }
 
   @RequestMapping(
       value = "/tasks/create",
@@ -31,6 +40,8 @@ public class TaskHandlerController {
     logger.info("Payload: " + payload);
 
     logger.info("Payload String: " + new Gson().toJson(payload));
+
+    dummyRestClientAdapter.callToDummy(String.valueOf(payload.get("name")));
 
     return output;
   }
